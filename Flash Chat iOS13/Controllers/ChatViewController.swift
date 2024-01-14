@@ -32,8 +32,9 @@ class ChatViewController: UIViewController {
     }
     
     func loadMessages() {
-        messages = []
-        db.collection(K.FStore.collectionName).getDocuments { querySnapshot, error in
+        //getDocumentsは一度だけデータを取得したいときに使い、addSnapshotListenerはリアルタイムでデータを取得したいときに使う
+        db.collection(K.FStore.collectionName).addSnapshotListener { querySnapshot, error in
+            self.messages = []
             if let e = error {
                 print("firestoreからのデータ取得に問題がありました, \(e)")
             } else {
